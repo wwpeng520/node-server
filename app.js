@@ -1,4 +1,5 @@
 const express = require('./lib/express')
+const mimeType = require('./lib/mime')
 const path = require('path')
 const bodyParser = require('body-parser')
 const urlencodedParser = bodyParser.urlencoded({
@@ -8,6 +9,7 @@ const urlencodedParser = bodyParser.urlencoded({
 const app = express()
 
 app.use(urlencodedParser)
+app.use(mimeType)
 app.use(express.static(path.join(__dirname, 'static')))
 app.set('views', path.join(__dirname, 'views'))
 
