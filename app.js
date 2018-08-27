@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
 })
 
 
-app.use('/index', function (req, res) {
+app.use('/', function (req, res) {
   res.send('hello world')
 })
 
