@@ -1,11 +1,15 @@
 const express = require('./lib/express')
 const path = require('path')
-const bodyParser = require('./lib/body-parser')
+const bodyParser = require('body-parser')
+const urlencodedParser = bodyParser.urlencoded({
+  extended: false
+})
 
 const app = express()
 
-app.use(bodyParser)
+app.use(urlencodedParser)
 app.use(express.static(path.join(__dirname, 'static')))
+app.set('views', path.join(__dirname, 'views'))
 
 app.use(function (req, res, next) {
   console.log('middleware 1')
@@ -22,15 +26,21 @@ app.use('/index', function (req, res) {
   res.send('hello world')
 })
 
-app.use('/getQuery', function (req, res) {
+app.use('/get_query', function (req, res) {
   res.send({
-    url: '/getQuery',
-    city: req.query.city
+    url: '/get_query',
+    name: req.query.name
   })
 })
 
 app.use('/search', function (req, res) {
   res.send(req.body)
+})
+
+app.use('/test', function (req, res) {
+  res.render('test.ejs', {
+    name: '这是 name'
+  })
 })
 
 app.use(function (req, res) {

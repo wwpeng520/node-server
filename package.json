@@ -1,0 +1,9 @@
+{
+  "name": "node-server",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1"
+  }
+}
