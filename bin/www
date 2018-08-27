@@ -1,0 +1,8 @@
+#!/usr/bin/env node
+
+const app = require('../app')
+const http = require('http')
+console.log(app)
+
+http.createServer(app).listen(8080)
+console.log('Listening http://localhost:8080')
