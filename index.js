@@ -1,24 +1,37 @@
 const http = require('http')
+const path = require('path')
+const fs = require('fs')
+const url = require('url')
 
-const server = http.createServer(function (request, response) {
-  setTimeout(function () {
-    // text/html 形式
-    // response.setHeader('Content-Type', 'text/html; charset=utf-8')
-    // response.writeHead(200, 'OK')
-    // response.write('<html><head><meta charset="utf-8" /></head>')
-    // response.write('<body>')
-    // response.write('<h1>你好，这是HTML内容返回。</h1>')
-    // response.write('</body>')
-    // response.write('</html>')
+function staticRoot(staticPath, req, res) {
 
-    // text/plain 形式
-    response.setHeader('Content-Type', 'text/plain; charset=utf-8')
-    response.writeHead(200, 'OK')
-    response.write('你好，这是文本内容返回。')
+  let pathObj = url.parse(req.url, true)
 
-    response.end()
-  }, 1000);
+  if (pathObj.pathname === '/') {
+    pathObj.pathname += 'index.html'
+  }
+
+  const filePath = path.join(staticPath, pathObj.pathname)
+
+  fs.readFile(filePath, 'binary', function (err, fileContent) {
+    if (err) {
+      console.log('404')
+      res.writeHead(404, 'not found')
+      res.end('<h1>404 Not Found</h1>')
+    } else {
+      console.log('ok')
+      res.writeHead(200, 'OK')
+      res.write(fileContent, 'binary')
+      res.end()
+    }
+  })
+}
+
+console.log(path.join(__dirname, 'static'))
+
+const server = http.createServer(function (req, res) {
+  staticRoot(path.join(__dirname, 'static'), req, res)
 })
 
-console.log('Listening http://localhost:8080')
 server.listen(8080)
+console.log('Listening http://localhost:8080')
