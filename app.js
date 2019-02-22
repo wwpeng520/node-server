@@ -16,11 +16,13 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(function (req, res, next) {
   console.log('middleware 1')
   next()
+  console.log('middleware 1 next')
 })
 
 app.use(function (req, res, next) {
   console.log('middleware 2')
   next()
+  console.log('middleware 2 next')
 })
 
 
@@ -46,6 +48,7 @@ app.use('/test', function (req, res) {
 })
 
 app.use(function (req, res) {
+  console.log('Not Found')
   res.send(404, 'Not Found')
 })
 
